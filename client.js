@@ -35,8 +35,31 @@ async sendMessage(payload) {
         })
      
     })
-    console.log(payload.senderId)
-       console.log(payload.message)
+
+    return await res.json()
+}
+async sendAttachment(payload) {
+    let url = `${INSTAGRAM_BASE_URL}${AUTHENTICATED_USER}/messages`
+    const res = await fetch(url, {method:"POST", 
+        headers:{
+            Authorization:`Bearer ${this.Config.auth}`,
+            "Content-Type": "application/json"
+        }, body:JSON.stringify({
+           "recipient":{
+               "id":payload.senderId
+           },
+           "message":{
+             "attachments":[ {
+               "type":payload.type,
+               "payload":{
+                 "url":payload.url
+               }
+             }]
+           }
+        })
+     
+    })
+
     return await res.json()
 }
 

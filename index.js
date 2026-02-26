@@ -8,9 +8,10 @@ const client = new InstaClient({
 const a = await client.getUser({
     fields:"username, user_id"
 })
-const b = await client.sendMessage({
+const b = await client.sendAttachment({
     senderId:process.env.SENDER_ID,
-    message:"hi"
+    type:"image",
+    url:"https://humkind.in/favicon.ico"
 })
 console.log(b)
 

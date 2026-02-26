@@ -1,32 +1,29 @@
 import { InstaClient } from "./client.js";
-import "dotenv/config"
+import "dotenv/config";
+
 const client = new InstaClient({
-    
-    auth:process.env.AUTH_TOKEN
-})
+  auth: process.env.AUTH_TOKEN
+});
 
-const a = await client.getUser({
-    fields:"username, user_id"
-})
-const b = await client.sendAttachment({
-     senderId:process.env.SENDER_ID,
-    attachments:[
-        {
-   
-    type:"image",
-   payload:{
-     url:"https://humkind.in/logo4.png"
-   }
-},
-        {
-   
-    type:"image",
-   payload:{
-     url:"https://humkind.in/logo.png"
-   }
-}
+async function trialButtonMessage() {
+  const response = await client.sendButtonTemplate({       
+    recipientId: process.env.RECIPIENT_ID,    
+    text: "What would you like to do?",
+    buttons: [
+      {
+        type: "web_url",
+        url: "https://humkind.in",
+        title: "Visit Website"
+      },
+      {
+        type: "postback",
+        payload: "GET_STARTED_CLICKED",
+        title: "Get Started"
+      }
     ]
-})
-console.log(b)
+  });
 
+  console.log("Response:", response);
+}
 
+trialButtonMessage();

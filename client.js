@@ -27,7 +27,7 @@ async sendMessage(payload) {
             "Content-Type": "application/json"
         }, body:JSON.stringify({
            "recipient":{
-               "id":payload.senderId
+               "id":payload.recepientId
            },
            "message":{
               "text":payload.message
@@ -46,7 +46,7 @@ async sendAttachment(payload) {
             "Content-Type": "application/json"
         }, body:JSON.stringify({
            "recipient":{
-               "id":payload.senderId
+               "id":payload.recepientId
            },
            "message":{
              "attachments":payload.attachments
@@ -57,6 +57,82 @@ async sendAttachment(payload) {
 
     return await res.json()
 }
+async sendSticker(payload) {
+    let url = `${INSTAGRAM_BASE_URL}${AUTHENTICATED_USER}/messages`
+    const res = await fetch(url, {method:"POST", 
+        headers:{
+            Authorization:`Bearer ${this.Config.auth}`,
+            "Content-Type": "application/json"
+        }, body:JSON.stringify({
+           "recipient":{
+               "id":payload.recepientId
+           },
+               message: {
+        attachment: {
+          type: payload.sticker
+        }
+      }
+        })
+     
+    })
+
+    return await res.json()
+}
+async sendReaction(payload) {
+
+  const url = `${INSTAGRAM_BASE_URL}${AUTHENTICATED_USER}/messages`;
+
+  const body = {
+    recipient: { id: String(payload.recepientId) },
+    sender_action: payload.action ?? "react", // "react" or "unreact"
+    payload: {
+      message_id: String(payload.messageId),
+    },
+  };
+
+  if ((payload.action ?? "react") !== "unreact") {
+    body.payload.reaction = payload.reaction; 
+  }
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${this.Config.auth}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  return await res.json();
+}
+async sendButtonTemplate(payload) {
 
 
+  const url = `${INSTAGRAM_BASE_URL}/${AUTHENTICATED_USER}/messages`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${this.Config.auth}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      recipient: {
+        id: payload.recipientId
+      },
+      message: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: payload.text,
+            buttons: payload.buttons
+          }
+        }
+      }
+    })
+  });
+
+  return await res.json();
+}
 }

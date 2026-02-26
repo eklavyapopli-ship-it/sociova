@@ -19,4 +19,26 @@ export class InstaClient{
        const res =  await fetch(url.href)
        return await res.json()
     }
+async sendMessage(payload) {
+    let url = `${INSTAGRAM_BASE_URL}${AUTHENTICATED_USER}/messages`
+    const res = await fetch(url, {method:"POST", 
+        headers:{
+            Authorization:`Bearer ${this.Config.auth}`,
+            "Content-Type": "application/json"
+        }, body:JSON.stringify({
+           "recipient":{
+               "id":payload.senderId
+           },
+           "message":{
+              "text":payload.message
+           }
+        })
+     
+    })
+    console.log(payload.senderId)
+       console.log(payload.message)
+    return await res.json()
+}
+
+
 }

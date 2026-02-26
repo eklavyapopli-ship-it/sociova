@@ -8,4 +8,10 @@ const client = new InstaClient({
 const a = await client.getUser({
     fields:"username, user_id"
 })
-console.log(a)
+const b = await client.sendMessage({
+    senderId:process.env.SENDER_ID,
+    message:"hi"
+})
+console.log(b)
+
+

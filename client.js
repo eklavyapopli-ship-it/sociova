@@ -49,12 +49,7 @@ async sendAttachment(payload) {
                "id":payload.senderId
            },
            "message":{
-             "attachments":[ {
-               "type":payload.type,
-               "payload":{
-                 "url":payload.url
-               }
-             }]
+             "attachments":payload.attachments
            }
         })
      

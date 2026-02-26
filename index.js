@@ -9,9 +9,23 @@ const a = await client.getUser({
     fields:"username, user_id"
 })
 const b = await client.sendAttachment({
-    senderId:process.env.SENDER_ID,
+     senderId:process.env.SENDER_ID,
+    attachments:[
+        {
+   
     type:"image",
-    url:"https://humkind.in/favicon.ico"
+   payload:{
+     url:"https://humkind.in/logo4.png"
+   }
+},
+        {
+   
+    type:"image",
+   payload:{
+     url:"https://humkind.in/logo.png"
+   }
+}
+    ]
 })
 console.log(b)
 

@@ -67,8 +67,51 @@ export type SendButtonTemplatePayload = {
   text: string;
   buttons: ButtonTemplateButton[];
 };
+export type SendMediaPayload = {
+
+  recipientId: string | number;
+  postId: string|number;
+};
 
 export type SendButtonTemplateResponse = Record<string, any>;
+export type SendMediaResponse = Record<string,any>
+// ---- Generic Template Types ----
+
+export type GenericWebUrlButton = {
+  type: "web_url";
+  url: string;
+  title: string;
+};
+
+export type GenericPostbackButton = {
+  type: "postback";
+  title: string;
+  payload: string;
+};
+
+export type GenericTemplateButton =
+  | GenericWebUrlButton
+  | GenericPostbackButton;
+
+export type GenericTemplateDefaultAction = {
+  type: "web_url";
+  url: string;
+};
+
+export type GenericTemplateElement = {
+  title: string;
+  image_url?: string;
+  subtitle?: string;
+  default_action?: GenericTemplateDefaultAction;
+  buttons?: GenericTemplateButton[];
+};
+
+export type SendGenericTemplatePayload = {
+  recipientId: string | number;
+  elements: GenericTemplateElement[];
+};
+
+export type SendGenericTemplateResponse = Record<string, any>;
 
 export declare class InstaClient {
   Config: {
@@ -88,4 +131,6 @@ export declare class InstaClient {
   sendReaction(payload: SendReactionPayload): Promise<SendReactionResponse>;
 
   sendButtonTemplate(payload: SendButtonTemplatePayload): Promise<SendButtonTemplateResponse>;
+  sendPublishedPosts(payload: SendMediaPayload): Promise<SendMediaResponse>;
+  sendGenericTemplate(payload: SendGenericTemplatePayload): Promise<SendGenericTemplateResponse>;
 }

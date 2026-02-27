@@ -1,4 +1,4 @@
-import { AUTHENTICATED_USER, INSTAGRAM_BASE_URL } from "./route";
+import { AUTHENTICATED_USER, INSTAGRAM_BASE_URL } from "./route.js";
 
 export class InstaClient{
     constructor({ auth}){
@@ -135,4 +135,57 @@ async sendButtonTemplate(payload) {
 
   return await res.json();
 }
+
+async sendPublishedPosts(payload) {
+  const url = `${INSTAGRAM_BASE_URL}/${AUTHENTICATED_USER}/messages`;
+    const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${this.Config.auth}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      recipient: {
+        id: payload.recipientId
+      },
+      message: {
+        attachment: {
+          type: "MEDIA_SHARE",
+          payload: {
+            id:payload.postId
+          }
+        }
+      }
+    })
+  });
+  return await res.json()
+}
+
+
+async  sendGenericTemplate( payload) {
+  const url = `${INSTAGRAM_BASE_URL}${AUTHENTICATED_USER}/messages`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${this.Config.auth}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      recipient: { id: payload.recipientId },
+      message: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "generic",
+            elements: payload.elements,
+          },
+        },
+      },
+    }),
+  });
+
+  return await res.json();
+}
+
 }

@@ -1,4 +1,4 @@
-import { AUTHENTICATED_USER, INSTAGRAM_BASE_URL } from "./route.js";
+import { AUTHENTICATED_USER, INSTAGRAM_BASE_URL } from "./route";
 
 export class InstaClient{
     constructor({ auth}){

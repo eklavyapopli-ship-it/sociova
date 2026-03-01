@@ -112,6 +112,10 @@ export type SendGenericTemplatePayload = {
 };
 
 export type SendGenericTemplateResponse = Record<string, any>;
+  export interface DirectPublishPayload {
+    caption: string;
+    image_url: string;
+  }
 
   export interface MediaResponse {
     id: string;

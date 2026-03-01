@@ -210,7 +210,7 @@ async directPublishPost(payload){
 }
 
 // Not direct
-async directPublishPost(payload){
+async createMedia(payload){
     const url = `${INSTAGRAM_BASE_URL}/26338849465738403/media`;
   const res = await fetch(url, {
     method: "POST",

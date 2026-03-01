@@ -113,6 +113,15 @@ export type SendGenericTemplatePayload = {
 
 export type SendGenericTemplateResponse = Record<string, any>;
 
+  export interface MediaResponse {
+    id: string;
+    status?: string;
+    [key: string]: any; // in case Instagram returns extra fields
+  }
+
+  export interface PublishPostResumePayload {
+    creation_id: string;
+  }
 export declare class InstaClient {
   Config: {
     auth: string;
@@ -133,4 +142,7 @@ export declare class InstaClient {
   sendButtonTemplate(payload: SendButtonTemplatePayload): Promise<SendButtonTemplateResponse>;
   sendPublishedPosts(payload: SendMediaPayload): Promise<SendMediaResponse>;
   sendGenericTemplate(payload: SendGenericTemplatePayload): Promise<SendGenericTemplateResponse>;
+   directPublishPost(payload: DirectPublishPayload): Promise<MediaResponse>;
+  createMedia(payload: DirectPublishPayload): Promise<MediaResponse>;
+  publishPostResume(payload: PublishPostResumePayload): Promise<MediaResponse>;
 }

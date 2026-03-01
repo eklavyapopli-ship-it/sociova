@@ -1,4 +1,4 @@
-import { AUTHENTICATED_USER, INSTAGRAM_BASE_URL } from "./route";
+import { AUTHENTICATED_USER, INSTAGRAM_BASE_URL } from "./route.js";
 
 export class InstaClient{
     constructor({ auth}){
@@ -187,7 +187,63 @@ async  sendGenericTemplate( payload) {
 
   return await res.json();
 }
+// PUBLISHING POSTS 
+async directPublishPost(payload){
+    const url = `${INSTAGRAM_BASE_URL}/26338849465738403/media`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${this.Config.auth}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "caption":payload.caption,
+      "image_url":payload.image_url
+    }),
+  });
+  const data =  await res.json()
+  const check = await this.publishPostResume({
+    
+    creation_id: await data.id
+  })
+  return await check
+}
+
+// Not direct
+async directPublishPost(payload){
+    const url = `${INSTAGRAM_BASE_URL}/26338849465738403/media`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${this.Config.auth}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "caption":payload.caption,
+      "image_url":payload.image_url
+    }),
+  });
+  const data =  await res.json()
+  return data
+}
+async publishPostResume(payload){
+    const url = `${INSTAGRAM_BASE_URL}/26338849465738403/media_publish`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${this.Config.auth}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({  
+          "creation_id":payload.creation_id
+         }),
+  });
+  return await res.json()
+}
 
 
 
 }
+
+
+
